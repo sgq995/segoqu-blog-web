@@ -32,7 +32,10 @@ jobs:
       uses: actions/cache@v2
       with:
         key: ${{ github.sha }}-build
-        path: ./build
+        path: |
+          ./build
+          ./Dockerfile
+          ./nginx.conf
 
   deploy:
     name: Deploy
@@ -44,7 +47,10 @@ jobs:
       uses: actions/cache@v2
       with:
         key: ${{ github.sha }}-build
-        path: ./build
+        path: |
+          ./build
+          ./Dockerfile
+          ./nginx.conf
     
     - name: Configuring ssh
       run: |
@@ -69,7 +75,7 @@ jobs:
       run: ssh remote 'mkdir -p ~/segoqu-blog-web'
     
     - name: Copying build
-      run: rsync -az ./build remote:~/segoqu-blog-web/build
+      run: rsync -az ./build remote:~/segoqu-blog-web
     
     - name: Copying Dockerfile and nginx.conf
       run: |
