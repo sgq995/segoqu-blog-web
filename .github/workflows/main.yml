@@ -27,6 +27,12 @@ jobs:
         npm ci
         npm run test
         npm run build
+        
+    - name: Saving in cache
+      uses: actions/cache@v2
+      with:
+        key: ${{ github.sha }}-build
+        path: ./build
 
   deploy:
     name: Deploy
@@ -34,18 +40,11 @@ jobs:
     needs: build
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Setupt node
-      uses: actions/setup-node@v1
+    - name: Restoring from cache
+      uses: actions/cache@v2
       with:
-        node-version: '14.x'
-    
-    - name: Building project
-      run: |
-        npm ci
-        npm run build
+        key: ${{ github.sha }}-build
+        path: ./build
     
     - name: Configuring ssh
       run: |
@@ -70,12 +69,12 @@ jobs:
       run: ssh remote 'mkdir -p ~/segoqu-blog-web'
     
     - name: Copying build
-      run: rsync ./build remote:~/segoqu-blog-web/build
+      run: rsync -az ./build remote:~/segoqu-blog-web/build
     
     - name: Copying Dockerfile and nginx.conf
       run: |
-        rsync ./Dockerfile remote:~/segoqu-blog-web/Dockerfile
-        rsync ./nginx.conf remote:~/segoqu-blog-web/nginx.conf
+        rsync -z ./Dockerfile remote:~/segoqu-blog-web/Dockerfile
+        rsync -z ./nginx.conf remote:~/segoqu-blog-web/nginx.conf
     
     - name: Running docker
       run: |
