@@ -44,7 +44,7 @@ jobs:
           HostName $SSH_HOST
           Port $SSH_PORT
           User $SSH_USER
-          IdentifyFile ~/.ssh/id_rsa
+          IdentityFile ~/.ssh/id_rsa
           StrictHostKeyChecking no
         END
       env:
