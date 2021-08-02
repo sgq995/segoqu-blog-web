@@ -1,0 +1,72 @@
+name: CI & CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setupt node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    
+    - name: Building project
+      run: |
+        npm ci
+        npm run test
+        npm run build
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-18.04
+    needs: build
+    
+    steps:
+    - name: Configuring ssh
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        cat >> ~/.ssh/config <<END
+        Host remote
+          HostName $SSH_HOST
+          Port $SSH_PORT
+          User $SSH_USER
+          IdentifyFile ~/.ssh/id_rsa
+          StrictHostKeyChecking no
+        END
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+    
+    - name: Creating project folder
+      run: ssh remote 'mkdir -p ~/segoqu-blog-web'
+    
+    - name: Copying build
+      run: rsync ./build remote:~/segoqu-blog-web/build
+    
+    - name: Copying Dockerfile and nginx.conf
+      run: |
+        rsync ./Dockerfile remote:~/segoqu-blog-web/Dockerfile
+        rsync ./nginx.conf remote:~/segoqu-blog-web/nginx.conf
+    
+    - name: Running docker
+      run: |
+        ssh remote 'docker build --rm -f ~/segoqu-blog-web/Dockerfile -t segoqu-blog-web:latest ~/segoqu-blog-web'
+        ssh remote 'docker run --rm -d -p 3000:80 segoqu-blog-web:latest'
+        
+    
