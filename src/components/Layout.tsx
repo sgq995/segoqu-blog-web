@@ -1,4 +1,5 @@
 import React from "react";
+import Footer from "./Footer";
 
 interface LayoutProps {
   children: JSX.Element[] | JSX.Element;
@@ -13,9 +14,7 @@ function Layout({
         {children}
       </main>
 
-      <footer className="min-h-12">
-        Test
-      </footer>
+      <Footer />
     </div>
   );
 }
