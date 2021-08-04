@@ -1,5 +1,6 @@
+import classNames from "classnames";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
 import Title from "./Title";
@@ -26,13 +27,20 @@ function Article({
     setIsAnimating(false);
   }
 
+  const articleClassName = classNames(
+    'my-4 p-2 rounded-md hover:bg-gray-50',
+    {
+      'animate-ping': isAnimating
+    }
+  );
+
   return (
-    <NavLink
+    <Link
       to={`/posts/${id}`}
-      activeClassName="text-gray-500"
+      className="visited:text-gray-500"
       onClick={onClick}
     >
-      <article className={`my-4 p-2 rounded-md hover:bg-gray-50 ${isAnimating ? 'animate-ping' : ''}`} onAnimationIteration={onAnimationEnd}>
+      <article className={articleClassName} onAnimationIteration={onAnimationEnd}>
         <header className="mb-2">
           <Title text={title} />
           <PublicationDate date={date} />
@@ -40,7 +48,7 @@ function Article({
 
         <Summary text={summary} />
       </article>
-    </NavLink>
+    </Link>
   );
 }
 
