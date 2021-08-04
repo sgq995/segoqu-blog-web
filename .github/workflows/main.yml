@@ -72,19 +72,18 @@ jobs:
         SSH_PORT: ${{ secrets.SSH_PORT }}
     
     - name: Creating project folder
-      run: ssh remote 'mkdir -p ~/segoqu-blog-web'
+      run: ssh remote 'mkdir -p ~/segoqu.com/blog-web'
     
     - name: Copying build
-      run: rsync -az ./build remote:~/segoqu-blog-web
+      run: rsync -az ./build remote:~/segoqu.com/blog-web
     
     - name: Copying Dockerfile and nginx.conf
       run: |
-        rsync -z ./Dockerfile remote:~/segoqu-blog-web/Dockerfile
-        rsync -z ./nginx.conf remote:~/segoqu-blog-web/nginx.conf
+        rsync -z ./Dockerfile remote:~/segoqu.com/blog-web/Dockerfile
+        rsync -z ./nginx.conf remote:~/segoqu.com/blog-web/nginx.conf
     
     - name: Running docker
       run: |
-        ssh remote 'docker build --rm -f ~/segoqu-blog-web/Dockerfile -t segoqu-blog-web:latest ~/segoqu-blog-web'
-        ssh remote 'docker run --rm -d -p 3000:80 segoqu-blog-web:latest'
+        ssh remote 'docker-compose -f ~/segoqu.com build blog-web'
+        ssh remote 'docker-compose -f ~/segoqu.com --no-deps -d blog-web'
         
-    
