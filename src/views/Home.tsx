@@ -13,6 +13,7 @@ function Home(): JSX.Element {
     <section>
       {articles.map(({ id, title, date, summary }) =>
         <Article
+          key={id}
           id={id}
           title={title}
           date={date}

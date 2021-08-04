@@ -7,11 +7,11 @@ interface PublicationDateProps {
 function PublicationDate({
   date
 }: PublicationDateProps): JSX.Element {
-  const fomattedDate = new Date(date);
+  const formattedDate = new Date(date);
 
   return (
     <h4 className="font-montserrat text-sm italic font-light">
-      {fomattedDate.toString()}
+      {formattedDate.toLocaleDateString()} - {formattedDate.toLocaleTimeString()}
     </h4>
   );
 }

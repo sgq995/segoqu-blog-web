@@ -41,12 +41,14 @@ function Article({
       onClick={onClick}
     >
       <article className={articleClassName} onAnimationIteration={onAnimationEnd}>
-        <header className="mb-2">
+        <header>
           <Title text={title} />
           <PublicationDate date={date} />
         </header>
 
-        <Summary text={summary} />
+        <div className="my-4">
+          <Summary text={summary} />
+        </div>
       </article>
     </Link>
   );

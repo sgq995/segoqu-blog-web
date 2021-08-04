@@ -3,12 +3,15 @@ import { Route, Switch } from 'react-router-dom';
 import Layout from './components/Layout';
 
 import Home from './views/Home';
+import Posts from './views/Posts';
 
 function App() {
   return (
     <Layout>
       <Switch>
-        <Route component={Home} />
+        <Route exact path="/" component={Home} />
+
+        <Route path="/posts" component={Posts} />
       </Switch>
     </Layout>
   );
