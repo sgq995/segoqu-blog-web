@@ -9,7 +9,7 @@ database['posts'] = new Array(100).fill(null).map((_, id) => ({
   title: faker.lorem.words(),
   date: faker.date.past(),
   summary: faker.lorem.sentence(),
-  content: faker.lorem.paragraphs()
+  content: faker.lorem.paragraphs(10)
 }));
 
 database['articles'] = database['posts'].map(post => ({
