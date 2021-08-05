@@ -4,7 +4,7 @@ import Post from "../components/Post";
 import postsService from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
 
-interface Post {
+interface PostModel {
   title?: string,
   date?: number | Date,
   summary?: string,
@@ -18,7 +18,7 @@ interface PostByIdParams {
 function PostById({
   match
 }: RouteComponentProps<PostByIdParams>): JSX.Element {
-  const [post, setPost] = React.useState<Post>({});
+  const [post, setPost] = React.useState<PostModel>({});
 
   const { id } = match.params;
 
