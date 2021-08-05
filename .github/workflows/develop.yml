@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setupt node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
+    
+    - name: Building project
+      run: |
+        npm ci
+        npm run test
+        npm run build
+        
