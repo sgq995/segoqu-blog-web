@@ -10,9 +10,7 @@ function Home(): JSX.Element {
     const promise = makeCancelable(articlesService.getAll());
     promise.then(response => setArticles(response.data));
 
-    return () => {
-      promise.cancel();
-    }
+    return () => promise.cancel();
   }, []);
 
   // const articles = new Array(5).fill(null).map(_ => ({

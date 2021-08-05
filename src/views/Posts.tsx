@@ -1,6 +1,15 @@
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
 import Post from "../components/Post";
+import postsService from "../services/posts-service";
+import { makeCancelable } from "../utils/cancellable-promise";
+
+interface Post {
+  title?: string,
+  date?: number | Date,
+  summary?: string,
+  content?: string
+}
 
 interface PostByIdParams {
   id: string;
@@ -9,14 +18,26 @@ interface PostByIdParams {
 function PostById({
   match
 }: RouteComponentProps<PostByIdParams>): JSX.Element {
+  const [post, setPost] = React.useState<Post>({});
+
   const { id } = match.params;
+
+  React.useEffect(() => {
+    const postId = parseInt(id);
+    const promise = makeCancelable(postsService.read(postId));
+    promise.then(response => setPost(response.data));
+
+    return () => promise.cancel();
+  }, [id]);
+
+  const { title, date, summary, content } = post;
 
   return (
     <Post
-      title="Title"
-      date={16161561651}
-      summary="Summary"
-      content="Lorem ipsum dolor sit amet"
+      title={title ?? ''}
+      date={date ?? 0}
+      summary={summary ?? ''}
+      content={content ?? ''}
     />
   );
 }
@@ -46,7 +67,7 @@ function Posts({
         <Route exact path={`${basepath}/:id`} component={PostById} />
         <Route exact path={`${basepath}/t/:title`} component={PostByTitle} />
 
-        {/* <Redirect to="/" /> */}
+        <Redirect to="/" />
       </Switch>
     </section>
   );

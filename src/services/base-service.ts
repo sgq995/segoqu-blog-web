@@ -7,7 +7,6 @@ class BaseService {
 
   constructor() {
     this.baseURL = config.api.baseURL ?? '';
-    console.log(this.baseURL);
     this.request = axios.create({
       baseURL: this.baseURL
     });
