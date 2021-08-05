@@ -90,8 +90,8 @@ jobs:
     
     - name: Running docker
       run: |
-        ssh remote 'docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml build blog-web'
-        ssh remote 'docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml --no-deps -d blog-web'
+        ssh remote "docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml build blog-web"
+        ssh remote "docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml --no-deps -d blog-web"
       env:
         PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
         
