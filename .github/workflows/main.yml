@@ -3,8 +3,6 @@ name: CI & CD
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
   workflow_dispatch:
 
@@ -74,18 +72,26 @@ jobs:
         SSH_PORT: ${{ secrets.SSH_PORT }}
     
     - name: Creating project folder
-      run: ssh remote 'mkdir -p ~/segoqu.com/blog-web'
+      run: ssh remote "mkdir -p ~/$PROJECT_FOLDER/blog-web"
+      env:
+        PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
     
     - name: Copying build
-      run: rsync -az ./build remote:~/segoqu.com/blog-web
+      run: rsync -az ./build remote:~/$PROJECT_FOLDER/blog-web
+      env:
+        PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
     
     - name: Copying Dockerfile and nginx.conf
       run: |
-        rsync -z ./Dockerfile remote:~/segoqu.com/blog-web/Dockerfile
-        rsync -z ./nginx.conf remote:~/segoqu.com/blog-web/nginx.conf
+        rsync -z ./Dockerfile remote:~/$PROJECT_FOLDER/blog-web/Dockerfile
+        rsync -z ./nginx.conf remote:~/$PROJECT_FOLDER/blog-web/nginx.conf
+      env:
+        PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
     
     - name: Running docker
       run: |
-        ssh remote 'docker-compose -f ~/segoqu.com build blog-web'
-        ssh remote 'docker-compose -f ~/segoqu.com --no-deps -d blog-web'
+        ssh remote 'docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml build blog-web'
+        ssh remote 'docker-compose -f ~/$PROJECT_FOLDER/docker-compose.yml --no-deps -d blog-web'
+      env:
+        PROJECT_FOLDER: ${{ secrets.PROJECT_FOLDER }}
         
