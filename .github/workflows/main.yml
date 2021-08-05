@@ -24,6 +24,8 @@ jobs:
     
     - name: Building project
       run: |
+        touch .env
+        echo "REACT_APP_API_BASEURL=https://api.segoqu.com" >> .env
         npm ci
         npm run test
         npm run build
