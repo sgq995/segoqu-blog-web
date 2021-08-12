@@ -1,4 +1,6 @@
+import classNames from "classnames";
 import React from "react";
+import config from "../config";
 
 interface FooterProps {
   className?: string | undefined;
@@ -7,8 +9,16 @@ interface FooterProps {
 function Footer({
   className
 }: FooterProps): JSX.Element {
+  const footerClassName = classNames(
+    'w-full py-8 bg-black text-center text-white',
+    className,
+    {
+      'mb-14': config.device.isMobile
+    }
+  );
+
   return (
-    <footer className={`w-full py-8 bg-black text-center text-white ${className ?? ''}`}>
+    <footer className={footerClassName}>
       <p className="text-sm">&copy; Sebastian Gonzalez Quintero</p>
     </footer>
   );
