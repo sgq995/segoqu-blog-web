@@ -48,14 +48,6 @@ function Navbar(): JSX.Element {
     }
   )
 
-  const navList = (
-    <NavList>
-      <NavItem to="/">
-        Home
-      </NavItem>
-    </NavList>
-  );
-
   return (
     <>
       <nav ref={navRef} className={className}>
@@ -64,17 +56,15 @@ function Navbar(): JSX.Element {
             <b>segoqu</b>
           </NavItem>
 
-          {config.device.isDesktop && navList}
+          {config.device.isDesktop && (
+            <NavList>
+              <NavItem to="/">
+                Home
+              </NavItem>
+            </NavList>
+          )}
         </div>
       </nav>
-
-      {config.device.isMobile && (
-        <nav className="w-full py-4 px-8 fixed bottom-0 bg-white shadow-top">
-          <div className="w-full max-w-screen-lg flex justify-around">
-            {navList}
-          </div>
-        </nav>
-      )}
     </>
   );
 }

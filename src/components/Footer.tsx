@@ -11,10 +11,7 @@ function Footer({
 }: FooterProps): JSX.Element {
   const footerClassName = classNames(
     'w-full py-8 bg-black text-center text-white',
-    className,
-    {
-      'mb-14': config.device.isMobile
-    }
+    className
   );
 
   return (

@@ -1,5 +1,8 @@
+import classNames from "classnames";
 import React from "react";
+import config from "../config";
 import Footer from "./Footer";
+import MobileNav from "./MobileNav";
 import Navbar from "./Navbar";
 
 interface LayoutProps {
@@ -9,6 +12,12 @@ interface LayoutProps {
 function Layout({
   children
 }: LayoutProps): JSX.Element {
+  const footerClassName = classNames(
+    {
+      'mb-14': config.device.isMobile
+    }
+  );
+
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
       <Navbar />
@@ -17,7 +26,11 @@ function Layout({
         {children}
       </main>
 
-      <Footer />
+      <Footer className={footerClassName} />
+
+      {config.device.isMobile && (
+        <MobileNav />
+      )}
     </div>
   );
 }
