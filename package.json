@@ -29,7 +29,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "json-server": "json-server -p 3001 -i id -d 2000 ./json/db.json"
+    "json-server": "json-server -H 0.0.0.0 -p 3001 -i id -d 2000 ./json/db.json"
   },
   "eslintConfig": {
     "extends": [
