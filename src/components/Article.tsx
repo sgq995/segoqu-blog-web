@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
 import Title from "./Title";
@@ -20,15 +20,19 @@ function Article({
 }: ArticleProps): JSX.Element {
   const [isAnimating, setIsAnimating] = React.useState(false);
 
-  const onClick = () => {
+  const history = useHistory();
+
+  const onClick = (event: React.MouseEvent) => {
+    event.preventDefault();
     setIsAnimating(true);
   }
   const onAnimationEnd = () => {
+    history.push(`/posts/${id}`);
     setIsAnimating(false);
   }
 
   const articleClassName = classNames(
-    'my-4 p-2 rounded-md hover:bg-gray-50',
+    'box-border my-4 p-2 rounded-md transition-colors duration-300 hover:bg-gray-50',
     {
       'animate-ping': isAnimating
     }
