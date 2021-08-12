@@ -1,15 +1,8 @@
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
 import Post from "../components/Post";
-import postsService from "../services/posts-service";
+import postsService, { Post as PostModel } from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
-
-interface PostModel {
-  title?: string,
-  date?: number | Date,
-  summary?: string,
-  content?: string
-}
 
 interface PostByIdParams {
   id: string;
@@ -18,28 +11,34 @@ interface PostByIdParams {
 function PostById({
   match
 }: RouteComponentProps<PostByIdParams>): JSX.Element {
-  const [post, setPost] = React.useState<PostModel>({});
+  const [post, setPost] = React.useState<PostModel | null>(null);
 
   const { id } = match.params;
 
   React.useEffect(() => {
     const postId = parseInt(id);
     const promise = makeCancelable(postsService.read(postId));
-    promise.then(response => setPost(response.data));
+    promise.then(response => setPost(response));
 
     return () => promise.cancel();
   }, [id]);
 
-  const { title, date, summary, content } = post;
+  if (post) {
+    const { title, date, summary, content } = post;
 
-  return (
-    <Post
-      title={title ?? ''}
-      date={date ?? 0}
-      summary={summary ?? ''}
-      content={content ?? ''}
-    />
-  );
+    return (
+      <Post
+        title={title}
+        date={date}
+        summary={summary}
+        content={content}
+      />
+    );
+  } else {
+    return (
+      <Post loading />
+    );
+  }
 }
 
 interface PostByTitleParams {
