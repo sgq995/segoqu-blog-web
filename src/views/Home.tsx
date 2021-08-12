@@ -1,36 +1,23 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { RouteProps } from 'react-router-dom';
+import React from 'react';
 import Article from '../components/Article';
-import withLoading from '../hocs/withLoading';
 import articlesService, { Article as ArticleModel } from '../services/articles-service';
 import { makeCancelable } from '../utils/cancellable-promise';
 
-interface HomeProps extends RouteProps {
-  setLoading: Dispatch<SetStateAction<boolean>>
-}
-
-function Home({
-  setLoading
-}: HomeProps): JSX.Element {
-  // const [loading, setLoading] = React.useState(false);
+function Home(): JSX.Element {
   const [error, setError] = React.useState<string | null>(null);
-  const [articles, setArticles] = React.useState<ArticleModel[]>([]);
+  const [articles, setArticles] = React.useState<ArticleModel[] | null>(null);
 
   React.useEffect(() => {
-    setLoading(true);
-
     const promise = makeCancelable(articlesService.getAll());
     promise.then(response => {
       setArticles(response);
-      setLoading(false);
     });
     promise.catch(reason => {
       if (reason.isCanceled) {
-        return setLoading(false);
+        return;
       }
 
       setError(reason.message);
-      setLoading(false);
     });
 
     return () => promise.cancel();
@@ -38,22 +25,24 @@ function Home({
 
   return (
     <section>
-      {error ? (
-        <p>{error}</p>
-      ) : (
-        articles.map(({ id, title, date, summary }) =>
-          <Article
-            key={id}
-            id={id}
-            title={title}
-            date={date}
-            summary={summary}
-          />
+      {articles
+        ? (
+          articles.map(({ id, title, date, summary }) =>
+            <Article
+              key={id}
+              id={id}
+              title={title}
+              date={date}
+              summary={summary}
+            />
+          )
         )
-      )}
+        : (
+          new Array(10).fill(<Article loading />)
+        )
+      }
     </section>
   );
 }
 
-const HomeWithLoading = withLoading(Home, (<p>loading</p>));
-export default HomeWithLoading;
+export default Home;
