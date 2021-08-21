@@ -7,7 +7,7 @@ import NavList from "./NavList";
 function Navbar(): JSX.Element {
   const [lastScroll, setLastScroll] = React.useState(0);
   const [hidden, setHiden] = React.useState(false);
-  const [bottom, setBottom] = React.useState(0);
+  const [threshold, setThreshold] = React.useState(0);
 
   const navRef = React.useRef<HTMLElement>(null);
 
@@ -30,7 +30,11 @@ function Navbar(): JSX.Element {
   }
 
   React.useEffect(() => {
-    setBottom(navRef.current?.getBoundingClientRect().bottom ?? 0);
+    setThreshold(
+      navRef.current
+       ? (navRef.current.getBoundingClientRect().bottom + navRef.current.getBoundingClientRect().top) / 2
+       : 0
+    );
 
     window.addEventListener('scroll', handleWindowScroll, false);
 
@@ -44,7 +48,7 @@ function Navbar(): JSX.Element {
     'sticky top-0 z-index-50 transition-transform transition-shadow duration-300 transform-gpu',
     {
       '-translate-y-full': hidden,
-      'bg-white bg-opacity-60 shadow-lg backdrop-filter backdrop-blur-lg': !hidden && lastScroll > bottom
+      'bg-white bg-opacity-60 shadow-lg backdrop-filter backdrop-blur-lg': !hidden && (lastScroll > threshold)
     }
   )
 

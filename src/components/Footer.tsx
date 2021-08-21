@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import React from "react";
-import config from "../config";
 
 interface FooterProps {
   className?: string | undefined;
