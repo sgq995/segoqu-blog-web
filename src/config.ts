@@ -10,5 +10,5 @@ const config = {
     isDesktop: !mobi
   }
 };
-console.log({config});
+
 export default config;
