@@ -10,12 +10,12 @@ export interface Article {
 class ArticlesService extends BaseService {
   async getAll(): Promise<Article[]> {
     const response = await this.request.get('/articles');
-    return response.data;
+    return response.data?.data;
   }
 
   async read(id: number): Promise<Article> {
     const response = await this.request.get(`/articles/${id}`);
-    return response.data;
+    return response.data?.data;
   }
 }
 

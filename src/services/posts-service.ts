@@ -11,12 +11,12 @@ export interface Post {
 class PostsService extends BaseService {
   async getAll(): Promise<Post[]> {
     const response = await this.request.get('/posts');
-    return response.data;
+    return response.data.data;
   }
 
   async read(id: number): Promise<Post> {
     const response = await this.request.get(`/posts/${id}`);
-    return response.data;
+    return response.data.data;
   }
 }
 
