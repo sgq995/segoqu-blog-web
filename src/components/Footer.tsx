@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import React from "react";
 
 interface FooterProps {
@@ -7,8 +8,13 @@ interface FooterProps {
 function Footer({
   className
 }: FooterProps): JSX.Element {
+  const footerClassName = classNames(
+    'w-full py-8 bg-black text-center text-white',
+    className
+  );
+
   return (
-    <footer className={`w-full py-8 bg-black text-center text-white ${className ?? ''}`}>
+    <footer className={footerClassName}>
       <p className="text-sm">&copy; Sebastian Gonzalez Quintero</p>
     </footer>
   );
