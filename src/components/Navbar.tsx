@@ -41,19 +41,19 @@ function Navbar(): JSX.Element {
 
   const className = classNames(
     'w-full py-4 flex justify-center',
-    'sticky top-0 bg-white transition-transform transition-shadow duration-300 transform-gpu',
+    'sticky top-0 z-index-50 transition-transform transition-shadow duration-300 transform-gpu',
     {
       '-translate-y-full': hidden,
-      'bg-opacity-60 shadow-lg backdrop-filter backdrop-blur-lg': !hidden && lastScroll > bottom
+      'bg-white bg-opacity-60 shadow-lg backdrop-filter backdrop-blur-lg': !hidden && lastScroll > bottom
     }
   )
 
   return (
     <>
       <nav ref={navRef} className={className}>
-        <div className="w-full max-w-screen-lg px-8 flex justify-between">
-          <NavItem to="/" className="flex-none">
-            <b>segoqu</b>
+        <div className="w-full max-w-screen-lg px-8 flex justify-between items-center">
+          <NavItem to="/" className="flex-none text-xl italic font-black leading-6">
+            segoqu
           </NavItem>
 
           {config.device.isDesktop && (

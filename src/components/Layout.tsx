@@ -19,10 +19,10 @@ function Layout({
   );
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center">
+    <div className="w-full min-h-screen flex flex-col items-center bg-gray-50">
       <Navbar />
 
-      <main className="w-screen max-w-screen-lg px-8 py-4 flex-grow flex-shrink-0">
+      <main className="w-full max-w-screen-lg px-8 py-4 flex-grow flex-shrink-0">
         {children}
       </main>
 

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import { Link } from "react-router-dom";
+import config from "../config";
 import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
 import Title from "./Title";
@@ -30,25 +31,28 @@ function Article({
   date,
   summary
 }: ArticleProps): JSX.Element {
-  const className = classNames(
-    'box-border my-4 p-2 rounded-md transition-colors duration-300 hover:bg-gray-50',
+  const articleClassName = classNames(
+    'box-border my-4 p-2 rounded-md transition-colors duration-300',
+    'select-none outline-none',
+    'border border-gray-100 shadow-neumorphism-md hover:shadow-inner-neumorphism-md focus:shadow-inner-neumorphism-md',
     {
+      'cursor-default': config.device.isMobile,
       'animate-pulse': loading
     }
-  )
+  );
 
   return (
     <Link
       to={`/posts/${id}`}
       className="visited:text-gray-500"
     >
-      <article className={className}>
+      <article className={articleClassName}>
         <header>
           <Title text={title} />
           <PublicationDate date={date} />
         </header>
 
-        <div className="my-4">
+        <div className="mt-4">
           <Summary text={summary} />
         </div>
       </article>

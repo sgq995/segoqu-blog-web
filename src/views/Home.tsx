@@ -25,21 +25,23 @@ function Home(): JSX.Element {
 
   return (
     <section>
-      {articles
-        ? (
-          articles.map(({ id, title, date, summary }) =>
-            <Article
-              key={id}
-              id={id}
-              title={title}
-              date={date}
-              summary={summary}
-            />
+      {error
+        ? <p>{error}</p>
+        : articles
+          ? (
+            articles.map(({ id, title, date, summary }) =>
+              <Article
+                key={id}
+                id={id}
+                title={title}
+                date={date}
+                summary={summary}
+              />
+            )
           )
-        )
-        : (
-          new Array(10).fill(<Article loading />)
-        )
+          : (
+            new Array(10).fill(<Article loading />)
+          )
       }
     </section>
   );
