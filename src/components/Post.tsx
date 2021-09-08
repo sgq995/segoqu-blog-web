@@ -5,21 +5,15 @@ import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
 import Title from "./Title";
 import classNames from "classnames";
+import { PostModel } from "../services/posts-service";
 
-interface DefaultPostProps {
+interface DefaultPostProps extends Omit<PostModel, "id"> {
   loading?: false;
   title: string;
-  date: number | Date;
-  summary: string;
-  content: string;
 }
 
-interface LoadingPostProps {
+interface LoadingPostProps extends Partial<Omit<PostModel, "id">> {
   loading: true;
-  title?: string;
-  date?: number | Date;
-  summary?: string;
-  content?: string;
 }
 
 type PostProps = DefaultPostProps | LoadingPostProps;
@@ -27,9 +21,11 @@ type PostProps = DefaultPostProps | LoadingPostProps;
 function Post({
   loading,
   title,
+  category,
+  tags,
   date,
   summary,
-  content
+  contents
 }: PostProps): JSX.Element {
   const className = classNames(
     {
@@ -48,7 +44,13 @@ function Post({
         <Summary text={summary} />
       </div>
 
-      <Content text={content} />
+      {contents?.map((content, key) => (
+        <Content
+          key={key}
+          tag={content.tag}
+          props={content.props}
+        />
+      ))}
 
       <footer>
 

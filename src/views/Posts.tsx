@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
 import Post from "../components/Post";
-import postsService, { Post as PostModel } from "../services/posts-service";
+import postsService, { PostModel } from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
 
 interface PostByIdParams {
@@ -24,14 +24,16 @@ function PostById({
   }, [id]);
 
   if (post) {
-    const { title, date, summary, content } = post;
+    const { title, category, tags, date, summary, contents } = post;
 
     return (
       <Post
+        category={category}
+        tags={tags}
         title={title}
         date={date}
         summary={summary}
-        content={content}
+        contents={contents}
       />
     );
   } else {

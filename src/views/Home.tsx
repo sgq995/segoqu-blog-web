@@ -1,6 +1,7 @@
 import React from 'react';
 import Article from '../components/Article';
-import articlesService, { Article as ArticleModel } from '../services/articles-service';
+import { Article as ArticleModel } from '../services/articles-service';
+import postsService from '../services/posts-service';
 import { makeCancelable } from '../utils/cancellable-promise';
 
 function Home(): JSX.Element {
@@ -8,7 +9,7 @@ function Home(): JSX.Element {
   const [articles, setArticles] = React.useState<ArticleModel[] | null>(null);
 
   React.useEffect(() => {
-    const promise = makeCancelable(articlesService.getAll());
+    const promise = makeCancelable(postsService.getAll());
     promise.then(response => {
       setArticles(response);
     });
@@ -40,7 +41,7 @@ function Home(): JSX.Element {
             )
           )
           : (
-            new Array(10).fill(<Article loading />)
+            new Array(10).fill(null).map((_, key) => <Article key={key} loading />)
           )
       }
     </section>
