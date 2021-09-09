@@ -2,6 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import { Link } from "react-router-dom";
 import config from "../config";
+import { route, ROUTE_POSTS_ID } from "../utils/sitemap";
 import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
 import Title from "./Title";
@@ -32,32 +33,41 @@ function Article({
   summary
 }: ArticleProps): JSX.Element {
   const articleClassName = classNames(
-    'box-border my-4 p-2 rounded-md transition-colors duration-300',
+    'box-border my-4 p-2 rounded-md transition-colors transition-shadow duration-300',
     'select-none outline-none',
-    'border border-gray-100 shadow-neumorphism-md hover:shadow-inner-neumorphism-md focus:shadow-inner-neumorphism-md',
+    'shadow-neumorphism-md',
     {
-      'cursor-default': config.device.isMobile,
+      'hover:shadow-inner-neumorphism-md': config.device.isDesktop,
+      'active:shadow-inner-neumorphism-md cursor-default': config.device.isMobile,
       'animate-pulse': loading
     }
   );
 
-  return (
-    <Link
-      to={`/posts/${id}`}
-      className="visited:text-gray-500"
-    >
-      <article className={articleClassName}>
-        <header>
-          <Title text={title} />
-          <PublicationDate date={date} />
-        </header>
+  const body = (
+    <article className={articleClassName}>
+      <header>
+        <Title text={title} />
+        <PublicationDate date={date} />
+      </header>
 
-        <div className="mt-4">
-          <Summary text={summary} />
-        </div>
-      </article>
-    </Link>
+      <div className="mt-4">
+        <Summary text={summary} />
+      </div>
+    </article>
   );
+
+  if (loading) {
+    return body;
+  } else {
+    return (
+      <Link
+        to={route(ROUTE_POSTS_ID, { id })}
+        className="visited:text-gray-500"
+      >
+        {body}
+      </Link>
+    );
+  }
 }
 
 export default Article;
