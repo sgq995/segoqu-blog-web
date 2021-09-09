@@ -1,35 +1,10 @@
-import classNames from "classnames";
-import { isUndefined } from "lodash";
 import React from "react";
-import colorSchema from "../styles/color-schema";
+import ContentAnchor from "./content/Anchor";
+import ContentParagraph from "./content/Paragraph";
 
-interface ContentParagraphProp {
-
-}
-
-function ContentParagraph() {
-  const text: string = '';
-
-  const className = classNames(
-    'pb-2 font-montserrat text-base font-normal text-justify',
-    {
-      [`w-full h-6 mb-4 ${colorSchema['bg-loading']}`]: isUndefined(text),
-    }
-  );
-
-  const paragraphs = text
-    ? text.replace('\r', '').split('\n')
-    : new Array(5).fill('');
-
-  return (
-    <>
-      {paragraphs.map((paragraph, index) => (
-        <p key={index} className={className}>
-          {paragraph}
-        </p>
-      ))}
-    </>
-  );
+const TAG_TO_COMPONENT: { [key: string]: React.FunctionComponent } = {
+  "p": ContentParagraph,
+  "a": ContentAnchor,
 }
 
 function pruneProps(props: { [key: string]: string }): [{ [key: string]: string }, string | null] {
@@ -62,7 +37,11 @@ function Content({
     : [{}, null];
 
   if (tag) {
-    return React.createElement(tag, prunedProps, textContent);
+    const component = TAG_TO_COMPONENT[tag]
+      ? TAG_TO_COMPONENT[tag]
+      : tag;
+
+    return React.createElement(component, prunedProps, textContent);
   } else {
     return (
       <>
