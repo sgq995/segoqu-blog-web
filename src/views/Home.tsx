@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import Article from '../components/Article';
 import { Article as ArticleModel } from '../services/articles-service';
 import postsService from '../services/posts-service';
@@ -26,6 +27,10 @@ function Home(): JSX.Element {
 
   return (
     <section>
+      <Helmet>
+        <title>Sebastian Gonzalez Quintero</title>
+      </Helmet>
+
       {error
         ? <p>{error}</p>
         : articles

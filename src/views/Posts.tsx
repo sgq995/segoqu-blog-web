@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Post from "../components/Post";
 import postsService, { PostModel } from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
@@ -27,18 +28,28 @@ function PostById({
     const { title, category, tags, date, summary, contents } = post;
 
     return (
-      <Post
-        category={category}
-        tags={tags}
-        title={title}
-        date={date}
-        summary={summary}
-        contents={contents}
-      />
+      <>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+        <Post
+          category={category}
+          tags={tags}
+          title={title}
+          date={date}
+          summary={summary}
+          contents={contents}
+        />
+      </>
     );
   } else {
     return (
-      <Post loading />
+      <>
+        <Helmet>
+          <title>Loading</title>
+        </Helmet>
+        <Post loading />
+      </>
     );
   }
 }
