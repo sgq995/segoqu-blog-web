@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React from "react";
 import config from "../config";
+import { route, ROUTE_HOME } from "../utils/sitemap";
 import NavItem from "./NavItem";
 import NavList from "./NavList";
 
@@ -56,13 +57,13 @@ function Navbar(): JSX.Element {
     <>
       <nav ref={navRef} className={className}>
         <div className="w-full max-w-screen-lg px-8 flex justify-between items-center">
-          <NavItem to="/" className="flex-none text-xl italic font-black leading-6">
+          <NavItem to={route(ROUTE_HOME)} className="flex-none text-xl italic font-black leading-6">
             segoqu
           </NavItem>
 
           {config.device.isDesktop && (
             <NavList>
-              <NavItem to="/">
+              <NavItem to={route(ROUTE_HOME)}>
                 Home
               </NavItem>
             </NavList>

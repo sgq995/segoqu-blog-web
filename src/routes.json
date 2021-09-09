@@ -1,0 +1,17 @@
+{
+  "home": {
+    "path": "/"
+  },
+
+  "posts": {
+    "path": "/posts",
+    "routes": {
+      "id": {
+        "path": "/:id"
+      },
+      "title": {
+        "path": "/t/:title"
+      }
+    }
+  }
+}

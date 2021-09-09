@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import Post from "../components/Post";
 import postsService, { PostModel } from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
+import { route, ROUTE_HOME, ROUTE_POSTS_ID, ROUTE_POSTS_TITLE } from "../utils/sitemap";
 
 interface PostByIdParams {
   id: string;
@@ -71,15 +72,13 @@ function PostByTitle({
 function Posts({
   match
 }: RouteComponentProps): JSX.Element {
-  const basepath = match.path;
-
   return (
     <section>
       <Switch>
-        <Route exact path={`${basepath}/:id`} component={PostById} />
-        <Route exact path={`${basepath}/t/:title`} component={PostByTitle} />
+        <Route exact path={route(ROUTE_POSTS_ID)} component={PostById} />
+        <Route exact path={route(ROUTE_POSTS_TITLE)} component={PostByTitle} />
 
-        <Redirect to="/" />
+        <Redirect to={route(ROUTE_HOME)} />
       </Switch>
     </section>
   );
