@@ -1,25 +1,19 @@
-import classNames from "classnames";
 import React from "react";
-import { Link } from "react-router-dom";
-import config from "../config";
+import { PostModel } from "../services/posts-service";
+import { route, ROUTE_POSTS_ID } from "../utils/sitemap";
+import Category from "./Category";
+import LoadingLink from "./LoadingLink";
 import PublicationDate from "./PublicationDate";
 import Summary from "./Summary";
+import TagList from "./TagList";
 import Title from "./Title";
 
-interface DefaultArticleProps {
+interface DefaultArticleProps extends PostModel {
   loading?: false;
-  id: number;
-  title: string;
-  date: number | Date;
-  summary: string;
 }
 
-interface LoadingArticleProps {
+interface LoadingArticleProps extends Partial<PostModel> {
   loading: true;
-  id?: number;
-  title?: string;
-  date?: number | Date;
-  summary?: string;
 }
 
 type ArticleProps = DefaultArticleProps | LoadingArticleProps;
@@ -27,36 +21,37 @@ type ArticleProps = DefaultArticleProps | LoadingArticleProps;
 function Article({
   loading,
   id,
+  category,
   title,
   date,
-  summary
+  summary,
+  tags
 }: ArticleProps): JSX.Element {
-  const articleClassName = classNames(
-    'box-border my-4 p-2 rounded-md transition-colors duration-300',
-    'select-none outline-none',
-    'border border-gray-100 shadow-neumorphism-md hover:shadow-inner-neumorphism-md focus:shadow-inner-neumorphism-md',
-    {
-      'cursor-default': config.device.isMobile,
-      'animate-pulse': loading
-    }
-  );
+  const loadingProp = !!loading;
 
   return (
-    <Link
-      to={`/posts/${id}`}
-      className="visited:text-gray-500"
-    >
-      <article className={articleClassName}>
-        <header>
-          <Title text={title} />
-          <PublicationDate date={date} />
-        </header>
+    <article className="box-border my-2 p-2 md:my-4 md:p-4 bg-white">
+      <Category loading={loadingProp} label={category} />
 
-        <div className="mt-4">
-          <Summary text={summary} />
+      <LoadingLink
+        loading={loadingProp}
+        className="visited:text-gray-600"
+        to={route(ROUTE_POSTS_ID, { id })}
+      >
+        <div className="my-2">
+          <header>
+            <Title text={title} />
+            <PublicationDate date={date} />
+          </header>
+
+          <div className="mt-4">
+            <Summary text={summary} />
+          </div>
         </div>
-      </article>
-    </Link>
+      </LoadingLink>
+
+      <TagList tags={tags} />
+    </article>
   );
 }
 

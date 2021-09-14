@@ -11,7 +11,7 @@ function Title({
   text
 }: TitleProps) : JSX.Element {
   const className = classNames(
-    'font-montserrat text-3xl font-medium',
+    'text-3xl font-medium',
     {
       [`w-full h-9 ${colorSchema['bg-loading']}`]: isUndefined(text),
     }

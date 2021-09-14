@@ -1,8 +1,10 @@
 import React from "react";
 import { Redirect, Route, RouteComponentProps, Switch } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Post from "../components/Post";
-import postsService, { Post as PostModel } from "../services/posts-service";
+import postsService, { PostModel } from "../services/posts-service";
 import { makeCancelable } from "../utils/cancellable-promise";
+import { route, ROUTE_HOME, ROUTE_POSTS_ID, ROUTE_POSTS_TITLE } from "../utils/sitemap";
 
 interface PostByIdParams {
   id: string;
@@ -24,19 +26,31 @@ function PostById({
   }, [id]);
 
   if (post) {
-    const { title, date, summary, content } = post;
+    const { title, category, tags, date, summary, contents } = post;
 
     return (
-      <Post
-        title={title}
-        date={date}
-        summary={summary}
-        content={content}
-      />
+      <>
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
+        <Post
+          category={category}
+          tags={tags}
+          title={title}
+          date={date}
+          summary={summary}
+          contents={contents}
+        />
+      </>
     );
   } else {
     return (
-      <Post loading />
+      <>
+        <Helmet>
+          <title>Loading</title>
+        </Helmet>
+        <Post loading />
+      </>
     );
   }
 }
@@ -58,15 +72,13 @@ function PostByTitle({
 function Posts({
   match
 }: RouteComponentProps): JSX.Element {
-  const basepath = match.path;
-
   return (
     <section>
       <Switch>
-        <Route exact path={`${basepath}/:id`} component={PostById} />
-        <Route exact path={`${basepath}/t/:title`} component={PostByTitle} />
+        <Route exact path={route(ROUTE_POSTS_ID)} component={PostById} />
+        <Route exact path={route(ROUTE_POSTS_TITLE)} component={PostByTitle} />
 
-        <Redirect to="/" />
+        <Redirect to={route(ROUTE_HOME)} />
       </Switch>
     </section>
   );

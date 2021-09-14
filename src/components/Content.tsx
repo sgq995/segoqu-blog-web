@@ -1,35 +1,55 @@
-import classNames from "classnames";
-import { isUndefined } from "lodash";
 import React from "react";
-import colorSchema from "../styles/color-schema";
+import ContentAnchor from "./content/Anchor";
+import ContentImage from "./content/Image";
+import ContentParagraph from "./content/Paragraph";
+
+const TAG_TO_COMPONENT: { [key: string]: React.FunctionComponent } = {
+  "p": ContentParagraph,
+  "a": ContentAnchor,
+  "img": ContentImage,
+}
+
+function pruneProps(props: { [key: string]: string }): [{ [key: string]: string }, string | null] {
+  let prunedProps: { [key: string]: string } = {};
+  let textContent: string | null = null;
+
+  for (let key in props) {
+    if (key === '#text') {
+      textContent = props[key];
+    } else if (key.startsWith('@')) {
+      prunedProps[key.substring(1)] = props[key];
+    }
+  }
+  return [prunedProps, textContent];
+}
 
 interface ContentProps {
-  text?: string;
+  tag?: string;
+  props?: {
+    [key: string]: string
+  };
 }
 
 function Content({
-  text
+  tag,
+  props
 }: ContentProps): JSX.Element {
-  const className = classNames(
-    'pb-2 font-montserrat text-base font-normal text-justify',
-    {
-      [`w-full h-6 mb-4 ${colorSchema['bg-loading']}`]: isUndefined(text),
-    }
-  );
+  const [prunedProps, textContent] = props
+    ? pruneProps(props)
+    : [{}, null];
 
-  const paragraphs = text
-    ? text.replace('\r', '').split('\n')
-    : new Array(5).fill('');
+  if (tag) {
+    const component = TAG_TO_COMPONENT[tag]
+      ? TAG_TO_COMPONENT[tag]
+      : tag;
 
-  return (
-    <>
-      {paragraphs.map((paragraph, index) => (
-        <p key={index} className={className}>
-          {paragraph}
-        </p>
-      ))}
-    </>
-  );
+    return React.createElement(component, prunedProps, textContent);
+  } else {
+    return (
+      <>
+      </>
+    );
+  }
 }
 
 export default Content;

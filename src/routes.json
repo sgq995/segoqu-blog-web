@@ -1,0 +1,26 @@
+{
+  "home": {
+    "path": "/"
+  },
+
+  "posts": {
+    "path": "/posts",
+    "routes": {
+      "id": {
+        "path": "/:id"
+      },
+      "title": {
+        "path": "/t/:title"
+      }
+    }
+  },
+
+  "categories": {
+    "path": "/categories",
+    "routes": {
+      "label": {
+        "path": "/:label"
+      }
+    }
+  }
+}

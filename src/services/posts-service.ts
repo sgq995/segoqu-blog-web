@@ -1,20 +1,31 @@
 import BaseService from "./base-service";
 
-export interface Post {
+interface PostContentProp {
+  [key: string]: string;
+}
+
+interface PostContent {
+  tag: string;
+  props: PostContentProp;
+}
+
+export interface PostModel {
   id: number;
   title: string;
   date: number | Date;
   summary: string;
-  content: string;
+  category: string;
+  tags: string[];
+  contents?: PostContent[];
 }
 
 class PostsService extends BaseService {
-  async getAll(): Promise<Post[]> {
+  async getAll(): Promise<PostModel[]> {
     const response = await this.request.get('/posts');
     return response.data.data;
   }
 
-  async read(id: number): Promise<Post> {
+  async read(id: number): Promise<PostModel> {
     const response = await this.request.get(`/posts/${id}`);
     return response.data.data;
   }
