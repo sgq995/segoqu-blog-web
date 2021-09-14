@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React from "react";
 import config from "../config";
 import Footer from "./Footer";
-import MobileNav from "./MobileNav";
+import MobileNavbar from "./MobileNav";
 import Navbar from "./Navbar";
 
 interface LayoutProps {
@@ -19,9 +19,10 @@ function Layout({
   );
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center bg-gray-100">
+    <div className="w-full min-h-screen flex flex-col items-center bg-gray-100 font-montserrat">
       <Navbar />
 
+      {/* <main className="w-full max-w-screen-md px-8 py-4 flex-grow flex-shrink-0"> */}
       <main className="w-full max-w-screen-md px-8 py-4 flex-grow flex-shrink-0">
         {children}
       </main>
@@ -29,7 +30,7 @@ function Layout({
       <Footer className={footerClassName} />
 
       {config.device.isMobile && (
-        <MobileNav />
+        <MobileNavbar />
       )}
     </div>
   );

@@ -6,13 +6,15 @@ import Summary from "./Summary";
 import Title from "./Title";
 import classNames from "classnames";
 import { PostModel } from "../services/posts-service";
+import Category from "./Category";
 
-interface DefaultPostProps extends Omit<PostModel, "id"> {
+type PostModelDisplayProps = Omit<PostModel, "id">;
+
+interface DefaultPostProps extends PostModelDisplayProps {
   loading?: false;
-  title: string;
 }
 
-interface LoadingPostProps extends Partial<Omit<PostModel, "id">> {
+interface LoadingPostProps extends Partial<PostModelDisplayProps> {
   loading: true;
 }
 
@@ -36,6 +38,8 @@ function Post({
   return (
     <article className={className}>
       <header>
+        <Category loading={!!loading} label={category} />
+
         <Title text={title} />
         <PublicationDate date={date} />
       </header>

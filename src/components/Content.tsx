@@ -1,10 +1,12 @@
 import React from "react";
 import ContentAnchor from "./content/Anchor";
+import ContentImage from "./content/Image";
 import ContentParagraph from "./content/Paragraph";
 
 const TAG_TO_COMPONENT: { [key: string]: React.FunctionComponent } = {
   "p": ContentParagraph,
   "a": ContentAnchor,
+  "img": ContentImage,
 }
 
 function pruneProps(props: { [key: string]: string }): [{ [key: string]: string }, string | null] {

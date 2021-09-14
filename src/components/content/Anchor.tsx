@@ -13,17 +13,19 @@ function ContentAnchor({
   children,
   ...props
 }: PropsWithChildren<ContentAnchorProp>): JSX.Element {
-  const className = classNames(
-    'py-2 font-montserrat text-base font-normal text-justify underline visited:text-purple-600',
+  const divClassName = classNames(
+    'py-2',
     {
       [`w-full h-6 mb-4 ${colorSchema['bg-loading']}`]: isUndefined(children),
     }
   );
 
   return (
-    <a className={className} {...props}>
-      {children}
-    </a>
+    <div className={divClassName}>
+      <a className="text-base font-normal underline visited:text-gray-600" {...props}>
+        {children}
+      </a>
+    </div>
   );
 }
 

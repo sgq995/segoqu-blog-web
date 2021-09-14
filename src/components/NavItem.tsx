@@ -10,7 +10,7 @@ function NavItem({
   ...navLinkProps
 }: NavItemProps): JSX.Element {
   return (
-    <NavLink {...navLinkProps as NavLinkProps}>
+    <NavLink className="font-normal" activeClassName="font-semibold" {...navLinkProps as NavLinkProps}>
       {children}
     </NavLink>
   );

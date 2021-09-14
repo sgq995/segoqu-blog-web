@@ -2,6 +2,10 @@ module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    // gradientColorStops: theme => ({
+    //   ...theme('colors'),
+    //   'white-black': '#fff 50%, #000 50%',
+    // }),
     extend: {
       fontFamily: {
         'montserrat': ['Montserrat']
@@ -22,12 +26,22 @@ module.exports = {
         'inner-neumorphism-md': 'inset -4px -4px 12px 2px rgba(255, 255, 255, 0.99), inset -2px -2px 8px 0px rgba(255, 255, 255, 0.94), inset 4px 4px 12px 2px rgba(0, 0, 0, 0.1), inset 2px 2px 8px 0px rgba(0, 0, 0, 0.06)',
         'inner-neumorphism-lg': 'inset -10px -10px 15px -3px rgba(255, 255, 255, 0.99), inset -4px -4px 6px -2px rgba(255, 255, 255, 0.95), inset 10px 10px 15px -3px rgba(0, 0, 0, 0.1), inset 4px 4px 6px -2px rgba(0, 0, 0, 0.05)',
       },
+      gradientColorStops: {
+        'white-black': '#fff 50%, #000 50%',
+      },
+      backgroundSize: {
+        'size-x-200': '200% auto',
+      },
+      backgroundPosition: {
+        'pos-x-end': '100% 0, right 0',
+      }
     },
   },
   variants: {
     extend: {
       textColor: ['visited'],
       boxShadow: ['active'],
+      backgroundPosition: ['hover', 'focus'],
     },
   },
   plugins: [],
