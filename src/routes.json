@@ -13,5 +13,14 @@
         "path": "/t/:title"
       }
     }
+  },
+
+  "categories": {
+    "path": "/categories",
+    "routes": {
+      "label": {
+        "path": "/:label"
+      }
+    }
   }
 }

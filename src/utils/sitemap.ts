@@ -1,11 +1,15 @@
 import routes from '../routes.json';
-import redirects from '../redirects.json';
-import { entries, keys, replace } from 'lodash';
+// import redirects from '../redirects.json';
+import { entries, keys } from 'lodash';
 
 export const ROUTE_HOME = 'home';
+
 export const ROUTE_POSTS = 'posts';
 export const ROUTE_POSTS_ID = 'posts/id';
 export const ROUTE_POSTS_TITLE = 'posts/title';
+
+export const ROUTE_CATEGORIES = 'categories';
+export const ROUTE_CATEGORIES_LABEL = 'categories/label';
 
 interface Route {
   path: string;
